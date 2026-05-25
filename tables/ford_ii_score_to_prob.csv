@@ -1,0 +1,2 @@
+source,n_rows_used,intercept,slope,event_rate_pct_train
+v3 ford2_model.parquet (split==train),1301473,-3.1005975132080357,0.5624730768385168,39.928219794033375

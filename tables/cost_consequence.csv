@@ -1,0 +1,8 @@
+component,destination,proportion_of_nonhome,facility_per_diem_2024_USD,facility_ALOS_days,cost_per_flagged_patient,notes
+baseline_inpatient_cost,,,2343.08,4.67,10942.1836,ALOS_baseline = 4.67 d (NIS HCUP norm flagged in cost_model_inputs.csv notes; cost_per_day_inpatient_levelI = $2343.08/d marginal beta)
+intervention_cost,,,,,109.7,Per-patient case-management cost (Salgado 2023 PMID PMC10752096; inflated 2020->2024 USD)
+downstream_REHAB,REHAB,0.36602431617961184,1516.97,12.5,5585.099883681113,"ALOS source: REHAB=12.5d MedPAC IRF, SNF/ICF=27d (SNF norm; ICF -> SNF per CLAUDE.md gotcha #5), LTCH=26d (statutory >25 d, MedPAC)"
+downstream_SNF,SNF,0.6129655501545259,507.13,27.0,6753.876813665266,"ALOS source: REHAB=12.5d MedPAC IRF, SNF/ICF=27d (SNF norm; ICF -> SNF per CLAUDE.md gotcha #5), LTCH=26d (statutory >25 d, MedPAC)"
+downstream_ICF,ICF,0.00896365658688281,507.13,27.0,98.76482026199355,"ALOS source: REHAB=12.5d MedPAC IRF, SNF/ICF=27d (SNF norm; ICF -> SNF per CLAUDE.md gotcha #5), LTCH=26d (statutory >25 d, MedPAC)"
+downstream_LTCH,LTCH,0.012046477078979476,1942.46,26.0,489.57529277388426,"ALOS source: REHAB=12.5d MedPAC IRF, SNF/ICF=27d (SNF norm; ICF -> SNF per CLAUDE.md gotcha #5), LTCH=26d (statutory >25 d, MedPAC)"
+downstream_TOTAL_weighted,ALL_NON_HOME,1.0,894.0466653965909,,12927.316810382257,Sum across REHAB+SNF+ICF+LTCH; weighted_perdiem reported as Σ(prop×perdiem) per facility-day (no ALOS in this row)

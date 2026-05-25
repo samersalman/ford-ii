@@ -1,0 +1,33 @@
+metric,value
+N_train,1301473
+N_test,650737
+n_candidates,45
+insurance_vars_added,ins_medicare; ins_private; ins_charity; ins_other
+insurance_vars_selected,ins_medicare; ins_private; ins_other
+n_selected,18
+selected_vars,age_45_64; age_65_74; age_75plus; sbp_hypotensive; gcs_severe; temp_hypothermic; bmi_obese_3; frac_cervical; frac_lumbar; frac_humerus; frac_hip_femur; frac_leg; mech_mvc; mech_other; trans_auto; ins_medicare; ins_private; ins_other
+with_ins_AUROC,0.8317
+with_ins_AUROC_CI_low,0.8307
+with_ins_AUROC_CI_high,0.833
+primary_AUROC,0.8285
+primary_AUROC_CI_low,0.8275
+primary_AUROC_CI_high,0.8296
+delta_AUROC,0.0033
+weight_age_75plus,4
+weight_age_65_74,3
+weight_frac_hip_femur,3
+weight_age_45_64,2
+weight_gcs_severe,2
+weight_frac_lumbar,2
+weight_frac_leg,2
+weight_trans_auto,-2
+weight_ins_medicare,2
+weight_sbp_hypotensive,1
+weight_temp_hypothermic,1
+weight_bmi_obese_3,1
+weight_frac_cervical,1
+weight_frac_humerus,1
+weight_mech_mvc,-1
+weight_mech_other,-1
+weight_ins_private,1
+weight_ins_other,1

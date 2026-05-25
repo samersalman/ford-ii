@@ -1,0 +1,5 @@
+Risk_group,FORD_II_score_range,FORD_II_n,FORD_II_events,FORD_II_event_rate_pct,FORD_II_ci_lo_pct,FORD_II_ci_hi_pct,FORD_score_range,FORD_n,FORD_events,FORD_event_rate_pct,FORD_ci_lo_pct,FORD_ci_hi_pct,V8_BT_event_rate_pct
+Low,0-2,192460,14037,7.29,7.18,7.41,0-1,122494,12402,10.12,9.96,10.29,1.2
+Low-Mod,3-5,212127,71154,33.54,33.34,33.74,2-3,89581,16929,18.9,18.64,19.16,3.1
+Mod-High,6-7,140640,89728,63.8,63.55,64.05,4-6,173369,60981,35.17,34.95,35.4,7.0
+High,8-10,105510,84908,80.47,80.23,80.71,7-10,265293,169515,63.9,63.71,64.08,26.4

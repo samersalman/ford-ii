@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: "FORD-II: External Validation and Refinement of the FORD Score on NTDB 2019-2024"
+message: "If you use this software, please cite both the software and the associated paper."
+type: software
+authors:
+  - family-names: Salman
+    given-names: Samer
+    email: samer.salman2021@gmail.com
+    affiliation: "Baylor College of Medicine"
+version: "0.1.0"
+date-released: "2026-05-24"
+license: MIT
+repository-code: "https://github.com/samersalman/ford-ii"
+url: "https://ford-ii-calculator.onrender.com"
+identifiers:
+  # TODO PLACEHOLDER: replace after Zenodo release
+  - type: doi
+    value: 10.5281/zenodo.XXXXXXX
+    description: "Concept DOI (all versions)"
+  # TODO PLACEHOLDER: replace after Zenodo release
+  - type: doi
+    value: 10.5281/zenodo.YYYYYYY
+    description: "Version DOI (v0.1.0)"
+preferred-citation:
+  type: article
+  title: "FORD-II: External Validation and Refinement of the FORD Score for Non-home Discharge in U.S. Trauma Patients"
+  authors:
+    - family-names: Salman
+      given-names: Samer
+  journal: "JAMA Surgery"
+  year: 2026
+  status: "under review"

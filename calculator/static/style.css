@@ -1,0 +1,196 @@
+/* FORD-II Calculator - minimal professional styling */
+:root {
+  --bg: #f7f8fa;
+  --fg: #1a1a1a;
+  --muted: #5c6370;
+  --border: #d8dce2;
+  --card-bg: #ffffff;
+  --accent: #2c5282;
+  --accent-hover: #1f3c63;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+header { margin-bottom: 24px; }
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--fg);
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+}
+
+/* ---- form ---- */
+.calculator-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 720px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--fg);
+}
+
+.field input,
+.field select {
+  font-size: 1rem;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--fg);
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.15);
+}
+
+.submit-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.submit-btn:hover { background: var(--accent-hover); }
+.submit-btn:focus { outline: 3px solid rgba(44, 82, 130, 0.35); outline-offset: 2px; }
+
+/* ---- result card ---- */
+.result-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 520px) {
+  .result-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+.result-score-num {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--fg);
+}
+
+.result-score-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.result-meta { display: flex; flex-direction: column; gap: 6px; }
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.result-key { color: var(--muted); }
+.result-val { font-weight: 600; }
+.result-val small {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.85em;
+  margin-left: 4px;
+}
+
+.provenance {
+  grid-column: 1 / -1;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Risk-group color variants (subtle background tint, strong left border) */
+.result-low      { background: #f0f9f1; border-left: 5px solid #2f855a; }
+.result-low-mod  { background: #fefcf0; border-left: 5px solid #d69e2e; }
+.result-mod-high { background: #fff4ec; border-left: 5px solid #dd6b20; }
+.result-high     { background: #fdf2f2; border-left: 5px solid #c53030; }
+
+/* ---- footer ---- */
+footer {
+  margin-top: 28px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+footer p { margin: 4px 0; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+.disclaimer { font-style: italic; }

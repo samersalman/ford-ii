@@ -1,0 +1,32 @@
+# Data — never commit patient-level
+*.parquet
+analysis/*/data/
+analysis/data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets / env
+.env
+.env.local
+
+# Notebooks & temp
+.ipynb_checkpoints/
+*.pkl
+*.tmp
+
+# Outputs that are regenerated (allow PNG figures and CSV tables — they're committed)
+# Intermediate CSVs in analysis subfolders are already covered by `analysis/*/data/`
+# at the top of this file.

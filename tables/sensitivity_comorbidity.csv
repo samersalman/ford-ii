@@ -1,0 +1,4 @@
+metric,value
+status,"Comorbidity columns not available in ford2_model.parquet. Comorbidity data was not included in the feature engineering step (02_ford2_v3_features.py). To enable this analysis, add comorbidity variable engineering to script 02 using NTDB comorbidity fields (available from ~2019 onward)."
+comorbidity_candidates_checked,diabetes; htn; chf; copd; ckd; dementia; cirrhosis; bleeding_disorder; anticoagulant; functional_dependence
+available_in_parquet,None

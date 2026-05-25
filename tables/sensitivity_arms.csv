@@ -1,0 +1,10 @@
+arm,variant,description,delta_cost_per_patient,pct_change_vs_base
+A,inpt_perdiem_x1.3,Level-I readiness flag (Ashley/Knowlton); inpatient per-diem × 1.3,476.26850880000006,31.473551298928083
+A,inpt_perdiem_x1.5,Level-I readiness flag (Ashley/Knowlton); inpatient per-diem × 1.5,552.2780240000001,52.4559188315468
+B,facility_perdiem_-10pct,MedPAC margin adjustment: IRF+SNF+LTCH per-diem deflated 10%; reports Δ(weighted-facility cost per flagged TP) only (primary Δ unchanged under marginal-beta framing),-1292.7316810382254,
+B,facility_perdiem_-15pct,MedPAC margin adjustment: IRF+SNF+LTCH per-diem deflated 15%; reports Δ(weighted-facility cost per flagged TP) only (primary Δ unchanged under marginal-beta framing),-1939.097521557338,
+C,cost_intervention_$45,Intervention cost = $45 (BLS SOC 21-1022 / Brigham anchor),372.748576,2.8969543919977694
+C,cost_intervention_$200,Intervention cost = $200 (BLS SOC 21-1022 / Brigham anchor),347.607576,-4.043199097332309
+D,avg_inpatient_$3239.56,Average inpatient per-day = $3239.56/d instead of marginal β $2343.08/d (Coaston Option C),507.66329200000007,40.14005677493306
+E,los_shift_to_facility,Saved inpatient day shifts to 1 weighted-facility day; weighted_facility_perdiem = $894.05/d,217.23986687267293,-40.03110377081335
+F,phce_inflator_1.0821,"PHCE NHEA inflator (AHRQ MEPS Price Index Table 3, base 2017=100): PHCE 2021->2024 = 116.0/107.2 = 1.0821; inpt $2367.36/d (vs CPI-MED 1.0710->$2343.08/d). Index-consistent with Coaston 2025 (PMID 40986303) which used PHCE for 2012->2021 normalization. CHEERS Item 15.",366.1931454050001,1.0873328766264752
