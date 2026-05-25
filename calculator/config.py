@@ -19,6 +19,7 @@ def _load_risk_groups() -> list[dict]:
                 "label": row["Risk_group"],
                 "score_lo": lo,
                 "score_hi": hi,
+                "score_range": row["FORD_II_score_range"],
                 "event_rate_pct": float(row["FORD_II_event_rate_pct"]),
                 "ci_lo_pct": float(row["FORD_II_ci_lo_pct"]),
                 "ci_hi_pct": float(row["FORD_II_ci_hi_pct"]),

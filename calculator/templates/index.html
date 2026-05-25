@@ -1,73 +1,420 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Times; -webkit-text-stroke: #000000}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); background-color: #ffffff}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Times; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); background-color: #ffffff}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); min-height: 13.0px}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
-    p.p9 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; color: #0000e9; -webkit-text-stroke: #0000e9}
-    span.s1 {font-kerning: none}
-    span.s2 {font: 12.0px Times; font-kerning: none}
-    span.s3 {font: 11.0px Times; font-kerning: none; color: rgba(0, 0, 0, 0.25); -webkit-text-stroke: 0px rgba(0, 0, 0, 0.25)}
-    span.s4 {font: 11.0px Times; font-kerning: none}
-    span.s5 {font: 11.0px 'Helvetica Neue'; font-kerning: none}
-    span.s6 {font-kerning: none; background-color: #ffffff}
-    span.s7 {font-kerning: none; background-color: #b3b3b3}
-    span.s8 {text-decoration: underline ; font-kerning: none}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FORD-II Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 24.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>FORD-II Calculator</b></span></h1>
-<p class="p2"><span class="s1">Predicts non-home discharge for adult trauma patients with fractures. Externally validated on NTDB 2019–2024 (held-out test n=650,737, AUROC 0.83).</span></p>
-<p class="p3"><span class="s1">{% if result %} {% set rg = result.risk_group.label %} {% set rg_class = { 'Low': 'result-low', 'Low-Mod': 'result-low-mod', 'Mod-High': 'result-mod-high', 'High': 'result-high' }.get(rg, 'result-low') %}</span></p>
-<p class="p3"><span class="s1">{{ result.score }}</span></p>
-<p class="p3"><span class="s1">FORD-II points (0–10)</span></p>
-<p class="p3"><span class="s1">Risk group {{ rg }}</span></p>
-<p class="p3"><span class="s1">Predicted non-home discharge {{ result.probability_pct }}%</span></p>
-<p class="p4"><span class="s2">Observed event rate (NTDB) {{ result.risk_group.event_rate_pct }}% </span><span class="s1">(95% CI {{ result.risk_group.ci_lo_pct }}–{{ result.risk_group.ci_hi_pct }}%)</span></p>
-<p class="p2"><span class="s1">FORD-II, validated on NTDB 2019–2024 (AUROC 0.83). DOI: 10.5281/zenodo.20374085</span></p>
-<p class="p3"><span class="s1">{% endif %}</span></p>
-<p class="p3"><span class="s1">Age (years)</span></p>
-<p class="p3"><span class="s1">GCS (3–15)</span></p>
-<p class="p3"><span class="s1">SBP (mmHg)</span></p>
-<p class="p3"><span class="s1">Temperature (°C)</span></p>
-<p class="p3"><span class="s1">BMI (kg/m²)</span></p>
-<p class="p3"><span class="s1">Primary fracture site</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set site = form.fracture_site if form else '' %}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Hip / femur</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Lumbar spine</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Leg (tibia / fibula)</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Cervical spine</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Humerus</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
-<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
-<p class="p3"><span class="s1">Mechanism of injury</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set mech = form.mechanism if form else '' %}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">MVC (motor vehicle crash)</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Assault</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Fall / struck / pedestrian (reference)</span></p>
-<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
-<p class="p3"><span class="s1">Transport mode</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set trans = form.transport if form else '' %}</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Private auto</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">EMS / ambulance / helicopter</span></p>
-<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
-<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
-<p class="p8"><span class="s7">Calculate</span></p>
-<p class="p9"><span class="s8"><a href="https://github.com/samersalman/ford-ii">Manuscript &amp; code repository</a></span></p>
-<p class="p2"><span class="s1">Research tool. Not for clinical decision-making without provider judgment.</span></p>
+  {% set form_data = form if form is defined and form else {} %}
+  {% set result_obj = result if result is defined and result else none %}
+  {% set has_result = result_obj is not none %}
+  {% set risk_groups_data = risk_groups if risk_groups is defined and risk_groups else [] %}
+  {% set risk_class_map = {
+    'Low': 'risk-low',
+    'Low-Mod': 'risk-low-mod',
+    'Mod-High': 'risk-mod-high',
+    'High': 'risk-high'
+  } %}
+  {% set current_risk_label = result_obj.risk_group.label if has_result else 'Pending' %}
+  {% set current_risk_class = risk_class_map.get(current_risk_label, 'risk-pending') %}
+
+  <div class="page-shell">
+    <header class="hero card">
+      <div class="hero-copy">
+        <p class="eyebrow">Validated clinical trauma calculator</p>
+        <h1>FORD-II Non-Home Discharge Calculator</h1>
+        <p class="lede">
+          Estimates non-home discharge risk for adult trauma patients with fractures using the FORD-II score.
+          The interface is designed to remain fully functional as a standard Flask form and then progressively enhanced with JavaScript.
+        </p>
+      </div>
+      <div class="hero-meta" aria-label="Model summary">
+        <span class="meta-pill">NTDB 2019-2024 validation</span>
+        <span class="meta-pill">Held-out test n=650,737</span>
+        <span class="meta-pill">AUROC 0.83</span>
+      </div>
+      <div class="hero-aside">
+        <p>
+          Enter the values available at presentation, calculate the score, then review the active contributors,
+          raw versus clipped score, predicted probability, and observed event rates for the matched score band.
+        </p>
+        <p class="disclaimer">Research tool only. Do not substitute this output for clinician judgment.</p>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="content-column" aria-label="Result panels">
+        <article
+          class="card result-card {{ current_risk_class }}"
+          id="result-card"
+          aria-live="polite"
+          aria-busy="false"
+          data-result-card
+          data-state="{{ 'ready' if has_result else 'empty' }}"
+        >
+          <div class="result-header">
+            <div>
+              <p class="section-kicker">Current result</p>
+              <h2>Risk Summary</h2>
+              <p class="section-copy" data-result-state>
+                {{ 'Risk estimate ready' if has_result else 'Awaiting calculation' }}
+              </p>
+            </div>
+            <span class="risk-badge" data-result-badge>{{ current_risk_label }}</span>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-tile metric-score">
+              <span class="metric-label">FORD-II score</span>
+              <strong data-result-score>{{ result_obj.score if has_result else '—' }}</strong>
+              <span class="metric-footnote">Displayed risk score, clipped to the 0-10 range.</span>
+            </article>
+
+            <article class="metric-tile">
+              <span class="metric-label">Raw score</span>
+              <strong data-result-raw-score>{{ result_obj.raw_score if has_result else '—' }}</strong>
+              <span class="metric-footnote" data-result-clipping>
+                {% if has_result %}
+                  {% if result_obj.score_was_clipped %}
+                    Clipped before probability estimation.
+                  {% else %}
+                    No clipping applied.
+                  {% endif %}
+                {% else %}
+                  Raw score before clipping.
+                {% endif %}
+              </span>
+            </article>
+
+            <article class="metric-tile">
+              <span class="metric-label">Predicted non-home discharge</span>
+              <strong data-result-probability>{{ result_obj.probability_pct ~ '%' if has_result else '—' }}</strong>
+              <span class="metric-footnote">Model-predicted probability from the clipped score.</span>
+            </article>
+
+            <article class="metric-tile">
+              <span class="metric-label">Score band</span>
+              <strong data-result-range>{{ result_obj.risk_group.score_range if has_result else '—' }}</strong>
+              <span class="metric-footnote">Observed NTDB score band for the current risk group.</span>
+            </article>
+          </div>
+
+          <dl class="summary-grid">
+            <div class="summary-item">
+              <dt>Risk group</dt>
+              <dd data-result-risk-label>{{ current_risk_label }}</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Observed event rate</dt>
+              <dd data-result-event-rate>{{ result_obj.risk_group.event_rate_pct ~ '%' if has_result else '—' }}</dd>
+            </div>
+            <div class="summary-item">
+              <dt>95% CI</dt>
+              <dd data-result-ci>
+                {% if has_result %}
+                  {{ result_obj.risk_group.ci_lo_pct }}% to {{ result_obj.risk_group.ci_hi_pct }}%
+                {% else %}
+                  —
+                {% endif %}
+              </dd>
+            </div>
+          </dl>
+
+          <p class="result-footnote">
+            FORD-II was externally validated on NTDB 2019-2024. Reference DOI:
+            <a href="https://doi.org/10.5281/zenodo.20374085">10.5281/zenodo.20374085</a>.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <div>
+              <p class="section-kicker">Transparency</p>
+              <h2>Active Contributors</h2>
+            </div>
+            <p class="section-copy">Only met rules from the current calculation are listed here.</p>
+          </div>
+
+          <ul class="contributors-list" data-active-list>
+            {% if has_result and result_obj.active_contributions %}
+              {% for item in result_obj.active_contributions|sort(attribute='order') %}
+                <li class="contributor-item">
+                  <div>
+                    <strong>{{ item.label }}</strong>
+                    <span>{{ item.display_text }}</span>
+                  </div>
+                  <span class="point-pill">{{ item.signed_points }}</span>
+                </li>
+              {% endfor %}
+            {% elif has_result %}
+              <li class="contributor-empty">No modeled rules were met for this submission. The clipped score remains {{ result_obj.score }}.</li>
+            {% else %}
+              <li class="contributor-empty">No active contributors yet. Submit the form to populate this panel.</li>
+            {% endif %}
+          </ul>
+        </article>
+      </section>
+
+      <aside class="form-column">
+        <form
+          id="calculator-form"
+          class="card calculator-form"
+          action="{{ url_for('score') }}"
+          method="post"
+          data-calculator-form
+          novalidate
+        >
+          <div class="form-header">
+            <div>
+              <p class="section-kicker">Inputs</p>
+              <h2>Patient Factors</h2>
+            </div>
+            <p class="section-copy">Grouped to match the clinical workflow used at intake and initial trauma evaluation.</p>
+          </div>
+
+          <div class="form-panels">
+            <fieldset class="form-panel">
+              <legend>Demographics</legend>
+              <div class="field-grid">
+                <label class="field">
+                  <span>Age</span>
+                  <input
+                    id="age"
+                    name="age"
+                    type="number"
+                    inputmode="numeric"
+                    min="18"
+                    max="120"
+                    step="1"
+                    placeholder="Years"
+                    value="{{ form_data.get('age', '') }}"
+                  >
+                  <small>Age 45 years and older can add points depending on the age band.</small>
+                </label>
+
+                <label class="field">
+                  <span>BMI</span>
+                  <input
+                    id="bmi"
+                    name="bmi"
+                    type="number"
+                    inputmode="decimal"
+                    min="10"
+                    max="100"
+                    step="0.1"
+                    placeholder="kg/m2"
+                    value="{{ form_data.get('bmi', '') }}"
+                  >
+                  <small>Class III obesity contributes when BMI is 40 or higher.</small>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-panel">
+              <legend>Presentation / vitals</legend>
+              <div class="field-grid">
+                <label class="field">
+                  <span>GCS</span>
+                  <input
+                    id="gcs"
+                    name="gcs"
+                    type="number"
+                    inputmode="numeric"
+                    min="3"
+                    max="15"
+                    step="1"
+                    placeholder="3 to 15"
+                    value="{{ form_data.get('gcs', '') }}"
+                  >
+                  <small>GCS below 9 contributes 2 points.</small>
+                </label>
+
+                <label class="field">
+                  <span>SBP</span>
+                  <input
+                    id="sbp"
+                    name="sbp"
+                    type="number"
+                    inputmode="numeric"
+                    min="0"
+                    max="300"
+                    step="1"
+                    placeholder="mmHg"
+                    value="{{ form_data.get('sbp', '') }}"
+                  >
+                  <small>Systolic blood pressure below 90 mmHg contributes 1 point.</small>
+                </label>
+
+                <label class="field field-full">
+                  <span>Temperature</span>
+                  <input
+                    id="temp_c"
+                    name="temp_c"
+                    type="number"
+                    inputmode="decimal"
+                    min="25"
+                    max="45"
+                    step="0.1"
+                    placeholder="C"
+                    value="{{ form_data.get('temp_c', '') }}"
+                  >
+                  <small>Temperature below 36.0 C contributes 1 point.</small>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-panel">
+              <legend>Fracture characteristics</legend>
+              <div class="field-grid">
+                <label class="field field-full">
+                  <span>Primary fracture site</span>
+                  {% set fracture_site = form_data.get('fracture_site', '') %}
+                  <select id="fracture_site" name="fracture_site">
+                    <option value="" {% if fracture_site == '' %}selected{% endif %}>Select fracture site</option>
+                    <option value="hip_femur" {% if fracture_site == 'hip_femur' %}selected{% endif %}>Hip / femur</option>
+                    <option value="lumbar" {% if fracture_site == 'lumbar' %}selected{% endif %}>Lumbar spine</option>
+                    <option value="leg" {% if fracture_site == 'leg' %}selected{% endif %}>Leg (tibia / fibula)</option>
+                    <option value="cervical" {% if fracture_site == 'cervical' %}selected{% endif %}>Cervical spine</option>
+                    <option value="humerus" {% if fracture_site == 'humerus' %}selected{% endif %}>Humerus</option>
+                    <option value="other" {% if fracture_site == 'other' %}selected{% endif %}>Other / reference category</option>
+                  </select>
+                  <small>Only the listed fracture sites contribute model points.</small>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-panel">
+              <legend>Mechanism / transport</legend>
+              <div class="field-grid">
+                <label class="field">
+                  <span>Mechanism</span>
+                  {% set mechanism = form_data.get('mechanism', '') %}
+                  <select id="mechanism" name="mechanism">
+                    <option value="" {% if mechanism == '' %}selected{% endif %}>Select mechanism</option>
+                    <option value="fall_struck_pedestrian" {% if mechanism == 'fall_struck_pedestrian' %}selected{% endif %}>Fall / struck / pedestrian (reference)</option>
+                    <option value="mvc" {% if mechanism == 'mvc' %}selected{% endif %}>Motor vehicle crash</option>
+                    <option value="assault" {% if mechanism == 'assault' %}selected{% endif %}>Assault</option>
+                    <option value="other" {% if mechanism == 'other' %}selected{% endif %}>Other</option>
+                  </select>
+                  <small>MVC, assault, and other mechanism each contribute negative points.</small>
+                </label>
+
+                <label class="field">
+                  <span>Transport</span>
+                  {% set transport = form_data.get('transport', '') %}
+                  <select id="transport" name="transport">
+                    <option value="" {% if transport == '' %}selected{% endif %}>Select transport</option>
+                    <option value="ems" {% if transport == 'ems' %}selected{% endif %}>EMS / ambulance / helicopter</option>
+                    <option value="auto" {% if transport == 'auto' %}selected{% endif %}>Private auto</option>
+                    <option value="other" {% if transport == 'other' %}selected{% endif %}>Other / unknown</option>
+                  </select>
+                  <small>Private auto transport subtracts 2 points.</small>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="form-actions">
+            <button id="submit-button" class="button button-primary" type="submit" data-submit-button>Calculate FORD-II</button>
+            <button class="button button-secondary" type="reset">Reset</button>
+          </div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </aside>
+    </main>
+
+    <section class="reference-grid" aria-label="Detailed tables">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="section-kicker">Modeled rules</p>
+            <h2>Full Breakdown</h2>
+          </div>
+          <p class="section-copy">All FORD-II rules with status, grouping, and signed point contribution.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col">Predictor</th>
+                <th scope="col">Group</th>
+                <th scope="col">Condition</th>
+                <th scope="col">Status</th>
+                <th scope="col">Points</th>
+              </tr>
+            </thead>
+            <tbody data-breakdown-body>
+              {% if has_result and result_obj.all_contributions %}
+                {% for item in result_obj.all_contributions|sort(attribute='order') %}
+                  <tr class="{% if item.met %}is-active{% endif %}">
+                    <td>
+                      <strong>{{ item.label }}</strong>
+                      <span class="table-subtext">{{ item.display_text }}</span>
+                    </td>
+                    <td>{{ item.group }}</td>
+                    <td>{{ item.condition }}</td>
+                    <td>
+                      <span class="status-chip {% if item.met %}status-chip-active{% else %}status-chip-inactive{% endif %}">
+                        {{ 'Met' if item.met else 'Not met' }}
+                      </span>
+                    </td>
+                    <td>{{ item.signed_points }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr class="placeholder-row">
+                  <td colspan="5">Submit the form to populate the full FORD-II rule-by-rule breakdown.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="section-kicker">Reference</p>
+            <h2>Risk Groups</h2>
+          </div>
+          <p class="section-copy">Observed NTDB event rates by FORD-II score band.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table risk-table">
+            <thead>
+              <tr>
+                <th scope="col">Risk group</th>
+                <th scope="col">Score range</th>
+                <th scope="col">Observed event rate</th>
+                <th scope="col">95% CI</th>
+              </tr>
+            </thead>
+            <tbody data-risk-groups-body>
+              {% for group in risk_groups_data %}
+                <tr class="{% if has_result and group.label == result_obj.risk_group.label %}is-current{% endif %}">
+                  <td>{{ group.label }}</td>
+                  <td>{{ group.score_range }}</td>
+                  <td>{{ group.event_rate_pct }}%</td>
+                  <td>{{ group.ci_lo_pct }}% to {{ group.ci_hi_pct }}%</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <footer class="site-footer">
+      <p>FORD-II: external validation and refinement of the FORD score on NTDB 2019-2024.</p>
+      <p><a href="https://github.com/samersalman/ford-ii">Repository and manuscript materials</a></p>
+    </footer>
+  </div>
+
+  <script id="risk-groups-data" type="application/json">{{ risk_groups_data|tojson }}</script>
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>
 </html>
