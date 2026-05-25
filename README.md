@@ -6,7 +6,6 @@ FORD-II is a 16-predictor integer (0-10) clinical prediction score for non-home 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Calculator](https://img.shields.io/badge/calculator-live-brightgreen)](https://ford-ii-calculator.onrender.com)
 
-> Note: DOI badges above are PLACEHOLDERS. The Zenodo concept and version DOIs will be patched in after the first tagged release.
 
 ## Citation
 
