@@ -13,20 +13,18 @@ license: MIT
 repository-code: "https://github.com/samersalman/ford-ii"
 url: "https://ford-ii-calculator.onrender.com"
 identifiers:
-  # TODO PLACEHOLDER: replace after Zenodo release
   - type: doi
-    value: 10.5281/zenodo.XXXXXXX
+    value: 10.5281/zenodo.20374085
     description: "Concept DOI (all versions)"
-  # TODO PLACEHOLDER: replace after Zenodo release
   - type: doi
-    value: 10.5281/zenodo.YYYYYYY
+    value: 10.5281/zenodo.20374086
     description: "Version DOI (v0.1.0)"
 preferred-citation:
   type: article
   title: "FORD-II: External Validation and Refinement of the FORD Score for Non-home Discharge in U.S. Trauma Patients"
   authors:
     - family-names: Salman
-      given-names: Samer
+      given-names: Samer G.
   journal: "JAMA Surgery"
   year: 2026
   status: "under review"

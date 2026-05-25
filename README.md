@@ -2,7 +2,7 @@
 
 FORD-II is a 16-predictor integer (0-10) clinical prediction score for non-home discharge in adult trauma patients with fractures. Derived and validated on the ACS National Trauma Data Bank Public Use Files, admission years 2019-2024, using a 2:1 train/test split (training n=1,301,473; held-out test n=650,737). This repository contains the full analysis pipeline, aggregated result tables, manuscript figures, completed reporting checklists, and a deployable bedside calculator. Headline performance on the held-out test set: AUROC 0.8285 (95% CI 0.8275-0.8296).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/1248920840.svg)](https://doi.org/10.5281/zenodo.20374085)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Calculator](https://img.shields.io/badge/calculator-live-brightgreen)](https://ford-ii-calculator.onrender.com)
 
@@ -33,7 +33,7 @@ If you use FORD-II in your work, please cite both the software and the associate
   year      = {2026},
   publisher = {Zenodo},
   version   = {0.1.0},
-  doi       = {10.5281/zenodo.XXXXXXX},
+  doi       = {10.5281/zenodo.20374086},
   url       = {https://github.com/samersalman/ford-ii}
 }
 ```

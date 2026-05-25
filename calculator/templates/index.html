@@ -1,141 +1,73 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FORD-II Calculator &mdash; Non-home Discharge Risk</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Times; -webkit-text-stroke: #000000}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); background-color: #ffffff}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Times; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); background-color: #ffffff}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85); min-height: 13.0px}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
+    p.p9 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; color: #0000e9; -webkit-text-stroke: #0000e9}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px Times; font-kerning: none}
+    span.s3 {font: 11.0px Times; font-kerning: none; color: rgba(0, 0, 0, 0.25); -webkit-text-stroke: 0px rgba(0, 0, 0, 0.25)}
+    span.s4 {font: 11.0px Times; font-kerning: none}
+    span.s5 {font: 11.0px 'Helvetica Neue'; font-kerning: none}
+    span.s6 {font-kerning: none; background-color: #ffffff}
+    span.s7 {font-kerning: none; background-color: #b3b3b3}
+    span.s8 {text-decoration: underline ; font-kerning: none}
+  </style>
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>FORD-II Calculator</h1>
-      <p class="subtitle">
-        Predicts non-home discharge for adult trauma patients with fractures.
-        Externally validated on NTDB 2019&ndash;2024 (held-out test n=650,737, AUROC 0.83).
-      </p>
-    </header>
-
-    {% if result %}
-      {% set rg = result.risk_group.label %}
-      {% set rg_class = {
-          'Low': 'result-low',
-          'Low-Mod': 'result-low-mod',
-          'Mod-High': 'result-mod-high',
-          'High': 'result-high'
-      }.get(rg, 'result-low') %}
-      <section class="result-card {{ rg_class }}" aria-live="polite">
-        <div class="result-score">
-          <div class="result-score-num">{{ result.score }}</div>
-          <div class="result-score-label">FORD-II points (0&ndash;10)</div>
-        </div>
-        <div class="result-meta">
-          <div class="result-row">
-            <span class="result-key">Risk group</span>
-            <span class="result-val">{{ rg }}</span>
-          </div>
-          <div class="result-row">
-            <span class="result-key">Predicted non-home discharge</span>
-            <span class="result-val">{{ result.probability_pct }}%</span>
-          </div>
-          <div class="result-row">
-            <span class="result-key">Observed event rate (NTDB)</span>
-            <span class="result-val">
-              {{ result.risk_group.event_rate_pct }}%
-              <small>(95% CI {{ result.risk_group.ci_lo_pct }}&ndash;{{ result.risk_group.ci_hi_pct }}%)</small>
-            </span>
-          </div>
-        </div>
-        <p class="provenance">
-          FORD-II, validated on NTDB 2019&ndash;2024 (AUROC 0.83).
-          DOI: 10.5281/zenodo.XXXXXXX
-        </p>
-      </section>
-    {% endif %}
-
-    <form method="post" action="{{ url_for('score') }}" class="calculator-form" novalidate>
-      <div class="form-grid">
-        <div class="field">
-          <label for="age">Age (years)</label>
-          <input type="number" id="age" name="age" min="0" max="120" step="1" required
-                 value="{{ form.age if form and form.age else '' }}">
-        </div>
-
-        <div class="field">
-          <label for="gcs">GCS (3&ndash;15)</label>
-          <input type="number" id="gcs" name="gcs" min="3" max="15" step="1" required
-                 value="{{ form.gcs if form and form.gcs else '' }}">
-        </div>
-
-        <div class="field">
-          <label for="sbp">SBP (mmHg)</label>
-          <input type="number" id="sbp" name="sbp" min="0" max="300" step="1" required
-                 value="{{ form.sbp if form and form.sbp else '' }}">
-        </div>
-
-        <div class="field">
-          <label for="temp_c">Temperature (&deg;C)</label>
-          <input type="number" id="temp_c" name="temp_c" min="20" max="45" step="0.1" required
-                 value="{{ form.temp_c if form and form.temp_c else '' }}">
-        </div>
-
-        <div class="field">
-          <label for="bmi">BMI (kg/m&sup2;)</label>
-          <input type="number" id="bmi" name="bmi" min="10" max="80" step="0.1" required
-                 value="{{ form.bmi if form and form.bmi else '' }}">
-        </div>
-
-        <div class="field">
-          <label for="fracture_site">Primary fracture site</label>
-          <select id="fracture_site" name="fracture_site" required>
-            {% set site = form.fracture_site if form else '' %}
-            <option value="" {% if not site %}selected{% endif %} disabled>Select&hellip;</option>
-            <option value="hip_femur" {% if site == 'hip_femur' %}selected{% endif %}>Hip / femur</option>
-            <option value="lumbar"    {% if site == 'lumbar'    %}selected{% endif %}>Lumbar spine</option>
-            <option value="leg"       {% if site == 'leg'       %}selected{% endif %}>Leg (tibia / fibula)</option>
-            <option value="cervical"  {% if site == 'cervical'  %}selected{% endif %}>Cervical spine</option>
-            <option value="humerus"   {% if site == 'humerus'   %}selected{% endif %}>Humerus</option>
-            <option value="other"     {% if site == 'other'     %}selected{% endif %}>Other</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="mechanism">Mechanism of injury</label>
-          <select id="mechanism" name="mechanism" required>
-            {% set mech = form.mechanism if form else '' %}
-            <option value="" {% if not mech %}selected{% endif %} disabled>Select&hellip;</option>
-            <option value="mvc"             {% if mech == 'mvc'             %}selected{% endif %}>MVC (motor vehicle crash)</option>
-            <option value="assault"         {% if mech == 'assault'         %}selected{% endif %}>Assault</option>
-            <option value="other"           {% if mech == 'other'           %}selected{% endif %}>Other</option>
-            <option value="fall_struck_etc" {% if mech == 'fall_struck_etc' %}selected{% endif %}>Fall / struck / pedestrian (reference)</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="transport">Transport mode</label>
-          <select id="transport" name="transport" required>
-            {% set trans = form.transport if form else '' %}
-            <option value="" {% if not trans %}selected{% endif %} disabled>Select&hellip;</option>
-            <option value="auto"  {% if trans == 'auto'  %}selected{% endif %}>Private auto</option>
-            <option value="ems"   {% if trans == 'ems'   %}selected{% endif %}>EMS / ambulance / helicopter</option>
-            <option value="other" {% if trans == 'other' %}selected{% endif %}>Other</option>
-          </select>
-        </div>
-      </div>
-
-      <button type="submit" class="submit-btn">Calculate</button>
-    </form>
-
-    <footer>
-      <p>
-        <a href="https://github.com/samersalman/ford-ii" target="_blank" rel="noopener noreferrer">Manuscript & code repository</a>
-      </p>
-      <p class="disclaimer">
-        Research tool. Not for clinical decision-making without provider judgment.
-      </p>
-    </footer>
-  </main>
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 24.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>FORD-II Calculator</b></span></h1>
+<p class="p2"><span class="s1">Predicts non-home discharge for adult trauma patients with fractures. Externally validated on NTDB 2019–2024 (held-out test n=650,737, AUROC 0.83).</span></p>
+<p class="p3"><span class="s1">{% if result %} {% set rg = result.risk_group.label %} {% set rg_class = { 'Low': 'result-low', 'Low-Mod': 'result-low-mod', 'Mod-High': 'result-mod-high', 'High': 'result-high' }.get(rg, 'result-low') %}</span></p>
+<p class="p3"><span class="s1">{{ result.score }}</span></p>
+<p class="p3"><span class="s1">FORD-II points (0–10)</span></p>
+<p class="p3"><span class="s1">Risk group {{ rg }}</span></p>
+<p class="p3"><span class="s1">Predicted non-home discharge {{ result.probability_pct }}%</span></p>
+<p class="p4"><span class="s2">Observed event rate (NTDB) {{ result.risk_group.event_rate_pct }}% </span><span class="s1">(95% CI {{ result.risk_group.ci_lo_pct }}–{{ result.risk_group.ci_hi_pct }}%)</span></p>
+<p class="p2"><span class="s1">FORD-II, validated on NTDB 2019–2024 (AUROC 0.83). DOI: 10.5281/zenodo.20374085</span></p>
+<p class="p3"><span class="s1">{% endif %}</span></p>
+<p class="p3"><span class="s1">Age (years)</span></p>
+<p class="p3"><span class="s1">GCS (3–15)</span></p>
+<p class="p3"><span class="s1">SBP (mmHg)</span></p>
+<p class="p3"><span class="s1">Temperature (°C)</span></p>
+<p class="p3"><span class="s1">BMI (kg/m²)</span></p>
+<p class="p3"><span class="s1">Primary fracture site</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set site = form.fracture_site if form else '' %}</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Hip / femur</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Lumbar spine</span></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Leg (tibia / fibula)</span></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Cervical spine</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Humerus</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
+<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
+<p class="p3"><span class="s1">Mechanism of injury</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set mech = form.mechanism if form else '' %}</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">MVC (motor vehicle crash)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Assault</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">Fall / struck / pedestrian (reference)</span></p>
+<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
+<p class="p3"><span class="s1">Transport mode</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span>{% set trans = form.transport if form else '' %}</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">Select…</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Private auto</span></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">EMS / ambulance / helicopter</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">Other</span></p>
+<p class="p7"><span class="s6"><span class="Apple-converted-space">          </span></span></p>
+<p class="p8"><span class="s7">Calculate</span></p>
+<p class="p9"><span class="s8"><a href="https://github.com/samersalman/ford-ii">Manuscript &amp; code repository</a></span></p>
+<p class="p2"><span class="s1">Research tool. Not for clinical decision-making without provider judgment.</span></p>
 </body>
 </html>
